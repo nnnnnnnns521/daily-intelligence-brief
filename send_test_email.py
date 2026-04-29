@@ -74,43 +74,32 @@ def format_articles_for_prompt(articles):
 def generate_brief_with_gemini(articles, today):
     article_text = format_articles_for_prompt(articles)
 
-    prompt = f"""
-You are the editor of a premium daily executive briefing.
+    prompt = f"""You are the editor of a premium daily executive briefing.
 
 Style:
 - Axios meets TLDR
 - Short, sharp, skimmable
 - High signal, no fluff
-- Opinionated but not dramatic
-- Assume the reader is a senior marketing / strategy / GM leader
 
-Audience interests:
-- AI and LLM product releases
-- Big tech, media, commerce, and platform strategy
-- Earnings and business model shifts
-- CMO / marketing leadership and brand moves
-- Climate tech, energy transition, and energy policy
+Audience:
+Senior marketing / strategy leader.
 
 Date:
 {today}
 
-Source articles:
+Articles:
 {article_text}
 
-Your job:
-Create a concise daily brief using ONLY the articles provided.
+Task:
+Create a concise daily brief.
 
-Editorial rules:
-- Do not summarize every article equally.
-- Prioritize what changes strategy, markets, leadership, or regulation.
-- Avoid generic language like “worth tracking” or “broader shift.”
-- Each “Why it matters” should explain the actual implication.
-- If a story is niche, make clear why it matters or deprioritize it.
-- Keep each item tight: headline + one “Why it matters” sentence.
-- Do not invent facts beyond the headline/link.
-- Use plain-text email formatting.
+Rules:
+- Prioritize importance
+- One sentence "Why it matters"
+- No fluff
+- No repetition
 
-Format exactly:
+Format:
 
 📬 DAILY INTELLIGENCE BRIEF — {today}
 
@@ -118,51 +107,40 @@ Format exactly:
 🧠 TOP 5 THINGS TO KNOW
 ========================================
 
-• [Headline]
-  Why it matters: [Specific strategic implication.]
-
-• [Headline]
-  Why it matters: [Specific strategic implication.]
+• Headline
+  Why it matters: ...
 
 ----------------------------------------
 AI / LLMS
 ----------------------------------------
 
-• [Headline]
-  Why it matters: [Specific strategic implication.]
-  🔗 [Link]
+• Headline
+  Why it matters: ...
+  🔗 link
 
 ----------------------------------------
 TECH + MEDIA BUSINESS
 ----------------------------------------
 
-• [Headline]
-  Why it matters: [Specific strategic implication.]
-  🔗 [Link]
+• Headline
+  Why it matters: ...
+  🔗 link
 
 ----------------------------------------
 CLIMATE / ENERGY
 ----------------------------------------
 
-• [Headline]
-  Why it matters: [Specific strategic implication.]
-  🔗 [Link]
+• Headline
+  Why it matters: ...
+  🔗 link
 
 ----------------------------------------
 MARKETING / CMO
 ----------------------------------------
 
-• [Headline]
-  Why it matters: [Specific strategic implication.]
-  🔗 [Link]
-
-========================================
-💬 CONVERSATION STARTERS
-========================================
-
-• [One smart observation or question tied to today’s stories]
-• [One smart observation or question tied to today’s stories]
-• [One smart observation or question tied to today’s stories]
+• Headline
+  Why it matters: ...
+  🔗 link
 """
 
     try:
@@ -171,9 +149,8 @@ MARKETING / CMO
             contents=prompt
         )
         return response.text.strip()
-
     except Exception as e:
-        print("Gemini failed. Sending fallback brief.")
+        print("Gemini failed")
         print(e)
         return None
 
