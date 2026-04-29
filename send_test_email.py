@@ -69,11 +69,22 @@ def format_articles_for_prompt(articles):
 def generate_brief_with_gemini(articles, today):
     article_text = format_articles_for_prompt(articles)
 
-    prompt = f"""
-You are writing a premium daily executive news brief in the style of TLDR + Axios.
+        prompt = f"""
+You are the editor of a premium daily executive briefing.
 
-Audience:
-A senior marketing / strategy / GM leader interested in AI, media, commerce, marketing leadership, climate tech, and energy policy.
+Style:
+- Axios meets TLDR
+- Short, sharp, skimmable
+- High signal, no fluff
+- Opinionated but not dramatic
+- Assume the reader is a senior marketing / strategy / GM leader
+
+Audience interests:
+- AI and LLM product releases
+- Big tech, media, commerce, and platform strategy
+- Earnings and business model shifts
+- CMO / marketing leadership and brand moves
+- Climate tech, energy transition, and energy policy
 
 Date:
 {today}
@@ -81,17 +92,18 @@ Date:
 Source articles:
 {article_text}
 
-Write the full brief.
+Your job:
+Create a concise daily brief using ONLY the articles provided.
 
-Requirements:
-- Short, punchy, skimmable.
-- Prioritize strategic implications over summaries.
-- Do not invent facts beyond the provided headlines/links.
-- Keep each "Why it matters" to one sentence.
-- Use only the provided articles and links.
-- Include exactly 3 articles per category if available.
-- Pick the Top 5 based on likely importance to the audience.
-- Keep formatting clean for plain-text email.
+Editorial rules:
+- Do not summarize every article equally.
+- Prioritize what changes strategy, markets, leadership, or regulation.
+- Avoid generic language like “worth tracking” or “broader shift.”
+- Each “Why it matters” should explain the actual implication.
+- If a story is niche, make clear why it matters or deprioritize it.
+- Keep each item tight: headline + one “Why it matters” sentence.
+- Do not invent facts beyond the headline/link.
+- Use plain-text email formatting.
 
 Format exactly:
 
@@ -102,17 +114,17 @@ Format exactly:
 ========================================
 
 • [Headline]
-  Why it matters: [Short strategic implication.]
+  Why it matters: [Specific strategic implication.]
 
 • [Headline]
-  Why it matters: [Short strategic implication.]
+  Why it matters: [Specific strategic implication.]
 
 ----------------------------------------
 AI / LLMS
 ----------------------------------------
 
 • [Headline]
-  Why it matters: [Short strategic implication.]
+  Why it matters: [Specific strategic implication.]
   🔗 [Link]
 
 ----------------------------------------
@@ -120,7 +132,7 @@ TECH + MEDIA BUSINESS
 ----------------------------------------
 
 • [Headline]
-  Why it matters: [Short strategic implication.]
+  Why it matters: [Specific strategic implication.]
   🔗 [Link]
 
 ----------------------------------------
@@ -128,7 +140,7 @@ CLIMATE / ENERGY
 ----------------------------------------
 
 • [Headline]
-  Why it matters: [Short strategic implication.]
+  Why it matters: [Specific strategic implication.]
   🔗 [Link]
 
 ----------------------------------------
@@ -136,16 +148,16 @@ MARKETING / CMO
 ----------------------------------------
 
 • [Headline]
-  Why it matters: [Short strategic implication.]
+  Why it matters: [Specific strategic implication.]
   🔗 [Link]
 
 ========================================
 💬 CONVERSATION STARTERS
 ========================================
 
-• [Smart question or observation]
-• [Smart question or observation]
-• [Smart question or observation]
+• [One smart observation or question tied to today’s stories]
+• [One smart observation or question tied to today’s stories]
+• [One smart observation or question tied to today’s stories]
 """
 
     try:
