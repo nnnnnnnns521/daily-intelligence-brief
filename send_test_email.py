@@ -1,15 +1,17 @@
-
+import os
 import smtplib
 from email.message import EmailMessage
 from datetime import datetime
+
 import feedparser
 import requests
 from google import genai
 
-import os
+
 gmail_address = os.getenv("GMAIL_ADDRESS")
 gmail_app_password = os.getenv("GMAIL_APP_PASSWORD")
 gemini_api_key = os.getenv("GEMINI_API_KEY")
+
 client = genai.Client(api_key=gemini_api_key)
 
 feeds = {
@@ -28,6 +30,7 @@ feeds = {
         "https://www.marketingdive.com/feeds/news/",
     ],
 }
+
 
 def fetch_articles():
     articles = []
@@ -56,6 +59,7 @@ def fetch_articles():
 
     return articles
 
+
 def format_articles_for_prompt(articles):
     text = ""
 
@@ -65,7 +69,8 @@ def format_articles_for_prompt(articles):
         text += f"  Link: {article['link']}\n\n"
 
     return text
-    
+
+
 def generate_brief_with_gemini(articles, today):
     article_text = format_articles_for_prompt(articles)
 
@@ -172,6 +177,7 @@ MARKETING / CMO
         print(e)
         return None
 
+
 def smart_fallback_why(article):
     title = article["title"].lower()
     category = article["category"]
@@ -192,6 +198,7 @@ def smart_fallback_why(article):
         return "Why it matters: Marketers are under pressure to prove performance while adapting to fragmented channels and AI."
 
     return f"Why it matters: This could point to a broader shift in {category.lower()}."
+
 
 def generate_fallback_brief(articles, today):
     digest = f"📬 DAILY INTELLIGENCE BRIEF — {today}\n\n"
@@ -237,34 +244,6 @@ def generate_fallback_brief(articles, today):
 
     return digest
 
-    digest += "=" * 40 + "\n"
-    digest += "🧠 TOP 5 THINGS TO KNOW\n"
-    digest += "=" * 40 + "\n\n"
-
-    for article in articles[:5]:
-        digest += f"• {article['title']}\n"
-        digest += f"  Why it matters: This may signal a broader shift in {article['category'].lower()}.\n\n"
-
-    for category in feeds.keys():
-        digest += "\n" + "-" * 40 + "\n"
-        digest += f"{category.upper()}\n"
-        digest += "-" * 40 + "\n\n"
-
-        category_articles = [a for a in articles if a["category"] == category]
-
-        for article in category_articles:
-            digest += f"• {article['title']}\n"
-            digest += f"  Why it matters: This may signal a broader shift in {category.lower()}.\n"
-            digest += f"  🔗 {article['link']}\n\n"
-
-    digest += "\n" + "=" * 40 + "\n"
-    digest += "💬 CONVERSATION STARTERS\n"
-    digest += "=" * 40 + "\n\n"
-    digest += "• Which AI shift is most likely to change how marketers or operators work this quarter?\n"
-    digest += "• Which company move signals a bigger platform, media, or commerce shift?\n"
-    digest += "• Where is climate or energy policy creating opportunity versus uncertainty?\n"
-
-    return digest
 
 today = datetime.now().strftime("%B %d, %Y")
 articles = fetch_articles()
