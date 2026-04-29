@@ -70,77 +70,18 @@ def format_articles_for_prompt(articles):
 
     return text
 
-
 def generate_brief_with_gemini(articles, today):
     article_text = format_articles_for_prompt(articles)
 
-    prompt = f"""You are the editor of a premium daily executive briefing.
-
-Style:
-- Axios meets TLDR
-- Short, sharp, skimmable
-- High signal, no fluff
-
-Audience:
-Senior marketing / strategy leader.
-
-Date:
-{today}
+    prompt = f"""Daily Intelligence Brief for {today}
 
 Articles:
 {article_text}
 
-Task:
-Create a concise daily brief.
-
-Rules:
-- Prioritize importance
-- One sentence "Why it matters"
-- No fluff
-- No repetition
-
-Format:
-
-📬 DAILY INTELLIGENCE BRIEF — {today}
-
-========================================
-🧠 TOP 5 THINGS TO KNOW
-========================================
-
-• Headline
-  Why it matters: ...
-
-----------------------------------------
-AI / LLMS
-----------------------------------------
-
-• Headline
-  Why it matters: ...
-  🔗 link
-
-----------------------------------------
-TECH + MEDIA BUSINESS
-----------------------------------------
-
-• Headline
-  Why it matters: ...
-  🔗 link
-
-----------------------------------------
-CLIMATE / ENERGY
-----------------------------------------
-
-• Headline
-  Why it matters: ...
-  🔗 link
-
-----------------------------------------
-MARKETING / CMO
-----------------------------------------
-
-• Headline
-  Why it matters: ...
-  🔗 link
+Summarize into:
+- Top 5 most important stories
+- Group by category
+- Include one short "Why it matters" per item
 """
 
     try:
