@@ -65,11 +65,11 @@ def format_articles_for_prompt(articles):
         text += f"  Link: {article['link']}\n\n"
 
     return text
-
+    
 def generate_brief_with_gemini(articles, today):
     article_text = format_articles_for_prompt(articles)
 
-        prompt = f"""
+    prompt = f"""
 You are the editor of a premium daily executive briefing.
 
 Style:
