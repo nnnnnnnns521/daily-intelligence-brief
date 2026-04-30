@@ -30,7 +30,26 @@ feeds = {
         "https://www.marketingdive.com/feeds/news/",
     ],
 }
-
+WATCHLIST = [
+    "OpenAI",
+    "Anthropic",
+    "Google",
+    "Meta",
+    "Microsoft",
+    "Amazon",
+    "Apple",
+    "Perplexity",
+    "Nvidia",
+    "Canva",
+    "HubSpot",
+    "Salesforce",
+    "NextEra Energy",
+    "Tesla",
+    "Halcyon",
+    "Paces",
+    "Profound",
+    "Writer"
+]
 
 def fetch_articles():
     articles = []
