@@ -91,16 +91,23 @@ def format_articles_for_prompt(articles):
 
 def generate_brief_with_gemini(articles, today):
     article_text = format_articles_for_prompt(articles)
+    watchlist_text = ", ".join(WATCHLIST)
 
     prompt = f"""Daily Intelligence Brief for {today}
 
 Articles:
 {article_text}
 
-Summarize into:
-- Top 5 most important stories
-- Group by category
+Watchlist companies:
+{watchlist_text}
+
+Instructions:
+- Summarize into Top 5 most important stories
+- Group by category (AI, Tech/Media, Climate/Energy, Marketing)
 - Include one short "Why it matters" per item
+- Keep it concise, sharp, and skimmable
+- Strongly prioritize articles mentioning watchlist companies
+- If a watchlist company appears, elevate it into Top 5 when relevant
 """
 
     try:
