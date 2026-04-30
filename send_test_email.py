@@ -50,7 +50,25 @@ WATCHLIST = [
     "Profound",
     "Writer"
 ]
+def load_companies_from_sheet():
+    url = "https://docs.google.com/spreadsheets/d/1D_aZuyn6rG50C4_Jzism8Um1Zm1VE77pT2qW0ZUZwBI/export?format=csv"
 
+    try:
+        response = requests.get(url, timeout=10)
+        lines = response.text.split("\n")
+
+        companies = []
+        for line in lines:
+            c = line.strip().strip('"')
+            if c:
+                companies.append(c)
+
+        return companies
+
+    except Exception as e:
+        print("Sheet load failed:", e)
+        return []
+        
 def fetch_articles():
     articles = []
 
@@ -91,7 +109,9 @@ def format_articles_for_prompt(articles):
 
 def generate_brief_with_gemini(articles, today):
     article_text = format_articles_for_prompt(articles)
-    watchlist_text = ", ".join(WATCHLIST)
+    sheet_companies = load_companies_from_sheet()
+    combined_watchlist = list(set(WATCHLIST + sheet_companies))
+    watchlist_text = ", ".join(combined_watchlist)
 
     prompt = f"""Daily Intelligence Brief for {today}
 
